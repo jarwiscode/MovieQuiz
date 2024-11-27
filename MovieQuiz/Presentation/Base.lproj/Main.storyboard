@@ -77,6 +77,10 @@
                                                         <integer key="value" value="15"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="noButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Lda-Sw-oJw"/>
+                                                    <action selector="noButtonClicked_:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Njb-dl-zbs"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mbd-cE-asj" userLabel="Yes Button">
                                                 <rect key="frame" x="197" y="0.0" width="177" height="60"/>
@@ -91,6 +95,10 @@
                                                         <integer key="value" value="15"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="yesButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HuX-Nh-rRd"/>
+                                                    <action selector="yesButtonClicked_:" destination="BYZ-38-t0r" eventType="touchUpInside" id="00Y-Kq-ejq"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -120,6 +128,11 @@
                             <constraint firstItem="Pke-aw-OvF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="sZD-vz-IIi"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="counterLabel" destination="whh-B4-UlW" id="xQk-JO-JRk"/>
+                        <outlet property="imageView" destination="Pke-aw-OvF" id="Zyw-Pd-AYR"/>
+                        <outlet property="textLabel" destination="xWR-KV-Pae" id="hV0-vt-vRf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
