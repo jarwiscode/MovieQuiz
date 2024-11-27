@@ -102,6 +102,9 @@ final class MovieQuizViewController: UIViewController {
         } else {
             currentQuestionIndex += 1
             
+            imageView.layer.borderWidth = 0
+            imageView.layer.borderColor = nil
+            
             let nextQuestion = questions[currentQuestionIndex]
             let viewModel = convert(model: nextQuestion)
             

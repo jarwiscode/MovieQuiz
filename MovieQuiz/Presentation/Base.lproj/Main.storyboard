@@ -49,6 +49,11 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Pke-aw-OvF" secondAttribute="height" multiplier="2:3" id="K9t-rD-KOB"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="20"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xWR-KV-Pae" userLabel="Question Label">
                                         <rect key="frame" x="66.5" y="644.5" width="241" height="79.5"/>
