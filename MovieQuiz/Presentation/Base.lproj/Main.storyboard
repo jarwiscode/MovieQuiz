@@ -83,7 +83,6 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <action selector="noButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Lda-Sw-oJw"/>
                                                     <action selector="noButtonClicked_:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Njb-dl-zbs"/>
                                                 </connections>
                                             </button>
@@ -101,7 +100,6 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <action selector="yesButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HuX-Nh-rRd"/>
                                                     <action selector="yesButtonClicked_:" destination="BYZ-38-t0r" eventType="touchUpInside" id="00Y-Kq-ejq"/>
                                                 </connections>
                                             </button>

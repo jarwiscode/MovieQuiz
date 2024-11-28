@@ -1,24 +1,20 @@
 import UIKit
 
-struct viewModel {
+private var isAnswered = false
+
+private struct QuizStepViewModel {
     let image: UIImage
     let question: String
     let questionNumber: String
 }
 
-struct QuizStepViewModel {
-    let image: UIImage
-    let question: String
-    let questionNumber: String
-}
-
-struct QuizQuestion {
+private struct QuizQuestion {
     let image: String
     let text: String
     let correctAnswer: Bool
 }
 
-struct QuizResultViewModel {
+private struct QuizResultViewModel {
     let title: String
     let text: String
     let buttonText: String
@@ -89,6 +85,7 @@ final class MovieQuizViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.showNextQuestionOrResult()
         }
+        
     }
     
     private func showNextQuestionOrResult(){
@@ -99,17 +96,21 @@ final class MovieQuizViewController: UIViewController {
                 text: text,
                 buttonText: "Сыграть еще раз")
             show(quiz: viewModel)
+            
+
         } else {
             currentQuestionIndex += 1
-            
-            imageView.layer.borderWidth = 0
-            imageView.layer.borderColor = nil
             
             let nextQuestion = questions[currentQuestionIndex]
             let viewModel = convert(model: nextQuestion)
             
             show(quiz: viewModel)
         }
+        
+        isAnswered = false
+        
+        imageView.layer.borderWidth = 0
+        imageView.layer.borderColor = nil
     }
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
@@ -142,22 +143,23 @@ final class MovieQuizViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    @IBAction private func noButton(_ sender: Any) {
-    }
-    @IBAction private func yesButton(_ sender: Any) {
-    }
-    
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var textLabel: UILabel!
     @IBOutlet private var counterLabel: UILabel!
 
     @IBAction private func yesButtonClicked_(_ sender: UIButton) {
+        guard !isAnswered else { return }
+        isAnswered = true
+        
         let currentQuestion = questions[currentQuestionIndex]
         let givenAnswer = true
         
         showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     @IBAction func noButtonClicked_(_ sender: UIButton) {
+        guard !isAnswered else { return }
+        isAnswered = true
+        
         let currentQuestion = questions[currentQuestionIndex]
         let givenAnswer = false
         
