@@ -12,16 +12,22 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     @IBOutlet private var counterLabel: UILabel!
     
     private var correctAnswers: Int = 0
+    
+    private var alertPresenter: AlertPresenter?
 
     private var currentQuestionIndex: Int = 0
     private let questionsAmount: Int = 10
     private var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
+    
+    private var isButtonEnabled = true
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        alertPresenter = AlertPresenter(viewController: self)
+        
         let questionFactory = QuestionFactory()
         questionFactory.setup(delegate: self)
         self.questionFactory = questionFactory
@@ -50,6 +56,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     private func showAnswerResult(isCorrect: Bool){
+        guard isButtonEnabled else { return }
+        isButtonEnabled = false
         
         if isCorrect {
             correctAnswers += 1
@@ -59,8 +67,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         imageView.layer.borderWidth = 8
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.showNextQuestionOrResult()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            guard let self = self else { return }
+            self.isButtonEnabled = true
+            self.showNextQuestionOrResult()
         }
     }
     
@@ -91,45 +101,37 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
                     questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")
     }
     
+    
     private func show(quiz result: QuizResultViewModel) {
-        let alert = UIAlertController(
+        let alertModel = alertModel(
             title: result.title,
             message: result.text,
-            preferredStyle: .alert
+            buttonText: result.buttonText,
+            completion: { [weak self] in
+                self?.currentQuestionIndex = 0
+                self?.correctAnswers = 0
+                self?.questionFactory?.requestNextQuestion()
+            }
         )
+        imageView.layer.borderWidth = 0
+        imageView.layer.borderColor = nil
         
-        let action = UIAlertAction(title: result.buttonText, style: .default) { _ in
-            self.currentQuestionIndex = 0
-            self.correctAnswers = 0
-            
-            self.questionFactory?.requestNextQuestion()
-        }
-        
-        alert.addAction(action)
-        
-        self.present(alert, animated: true, completion: nil)
+        alertPresenter?.presentAlert(with: alertModel)
     }
     
     @IBAction private func noButton(_ sender: Any) {
     }
     @IBAction private func yesButton(_ sender: Any) {
     }
-
+    
+    // MARK: - Button Actions
     @IBAction private func yesButtonClicked_(_ sender: UIButton) {
-        guard let currentQuestion = currentQuestion else {
-            return
-        }
-        let givenAnswer = true
-        
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        guard let currentQuestion = currentQuestion else { return }
+        showAnswerResult(isCorrect: currentQuestion.correctAnswer == true)
     }
     @IBAction func noButtonClicked_(_ sender: UIButton) {
-        guard let currentQuestion = currentQuestion else {
-            return
-        }
-        let givenAnswer = false
-        
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        guard let currentQuestion = currentQuestion else { return }
+        showAnswerResult(isCorrect: currentQuestion.correctAnswer == false)
     }
 }
 
