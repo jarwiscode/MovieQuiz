@@ -10,7 +10,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         let questionNumber: String
     }
     
-    
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var textLabel: UILabel!
     @IBOutlet private var counterLabel: UILabel!
@@ -22,7 +21,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private var correctAnswers: Int = 0
 
-    
     private var alertPresenter: AlertPresenter?
 
     private var currentQuestionIndex: Int = 0
@@ -81,43 +79,43 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     private func showNextQuestionOrResult() {
-            if currentQuestionIndex == questionsAmount - 1 {
-                statisticService.store(correct: correctAnswers, total: questionsAmount)
-                
-                let bestGame = statisticService.bestGame
-                let formattedDate = statisticService.formatDate(bestGame.date)
-                let accuracyText = String(format: "%.2f", statisticService.totalAccuracy * 100)
-                let recordText = """
-                Количество сыгранных квизов:: \(statisticService.gamesCount)
-                Рекорд: \(bestGame.correct)/\(bestGame.total) (\(formattedDate))
-                Средняя точность: \(accuracyText)%
-                """
-                
-                let resultText = correctAnswers == questionsAmount
-                    ? "Поздравляем, вы ответили на 10 из 10!"
-                    : "Ваш результат \(correctAnswers)/10"
-                
-                let viewModel = QuizResultViewModel(
-                    title: "Этот раунд окончен!",
-                    text: "\(resultText)\n\n\(recordText)",
-                    buttonText: "Сыграть ещё раз"
-                )
-                show(quiz: viewModel)
-            } else {
-                currentQuestionIndex += 1
-                questionFactory?.requestNextQuestion()
-            }
+        if currentQuestionIndex == questionsAmount - 1 {
+            statisticService.store(correct: correctAnswers, total: questionsAmount)
+            
+            let bestGame = statisticService.bestGame
+            let formattedDate = statisticService.formatDate(bestGame.date)
+            let accuracyText = String(format: "%.2f", statisticService.totalAccuracy * 100)
+            let recordText = """
+            Количество сыгранных квизов: \(statisticService.gamesCount)
+            Рекорд: \(bestGame.correct)/\(bestGame.total) (\(formattedDate))
+            Средняя точность: \(accuracyText)%
+            """
+            
+            let resultText = correctAnswers == questionsAmount
+                ? "Поздравляем, вы ответили на 10 из 10!"
+                : "Ваш результат \(correctAnswers)/10"
+            
+            let viewModel = QuizResultViewModel(
+                title: "Этот раунд окончен!",
+                text: "\(resultText)\n\n\(recordText)",
+                buttonText: "Сыграть ещё раз"
+            )
+            show(quiz: viewModel)
+        } else {
+            currentQuestionIndex += 1
+            questionFactory?.requestNextQuestion()
+        }
         imageView.layer.borderWidth = 0
         imageView.layer.borderColor = nil
-        }
-        
-        private func convert(model: QuizQuestion) -> QuizStepViewModel {
-            QuizStepViewModel(
-                image: UIImage(named: model.image) ?? UIImage(),
-                question: model.text,
-                questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)"
-            )
-        }
+    }
+    
+    private func convert(model: QuizQuestion) -> QuizStepViewModel {
+        QuizStepViewModel(
+            image: UIImage(named: model.image) ?? UIImage(),
+            question: model.text,
+            questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)"
+        )
+    }
     
     private func resetGameStats() {
         correctAnswers = 0
@@ -147,6 +145,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         guard let currentQuestion = currentQuestion else { return }
         showAnswerResult(isCorrect: currentQuestion.correctAnswer == true)
     }
+    
     @IBAction func noButtonClicked_(_ sender: UIButton) {
         guard let currentQuestion = currentQuestion else { return }
         showAnswerResult(isCorrect: currentQuestion.correctAnswer == false)
